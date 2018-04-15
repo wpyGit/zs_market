@@ -10,6 +10,9 @@
 			return {
 
 			}
+		},
+		mounted(){
+			
 		}
 	}
 </script>

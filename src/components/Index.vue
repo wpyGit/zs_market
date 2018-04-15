@@ -15,7 +15,7 @@
 			    </el-dropdown>
 		  </el-col>
 		  <!-- 内容区 -->
-		  <el-col :span="24" class="i_article">
+		  <!-- <el-col :span="24" class="i_article"> -->
 		  		<div class="left_nav">
 			  		<!-- 展开按钮 -->
 					<div class="clooapse_space" @click.prevent="isCollapse = !isCollapse" :class="{open:isCollapse,close:!isCollapse}">
@@ -23,44 +23,29 @@
 						<i class="iconfont icon-liebiaozhankai" v-show="isCollapse"></i>					
 					</div>
 					<!-- 导航 -->
-					<el-menu background-color="#EEF1F6" router :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-						    <el-submenu :index="$route.path">
+					<el-menu background-color="#EEF1F6" unique-opened router :default-active="$route.path" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">						    
+						<template v-for="(item,index) in $router.options.routes" v-if="item.navShow">
+							<el-submenu :index="index+''" v-if="!item.oneLevel">
 							    <template slot="title">
 								      <i class="el-icon-location"></i>
-								      <span slot="title">商品管理</span>
+								      <span slot="title">{{item.navName}}</span>
 							    </template>
-								    <el-menu-item index="/index/addCommodity">
-								        <span slot="title">添加商品</span>
-								    </el-menu-item>
-								    <el-menu-item index="/index/commodityList">
-								        <span slot="title">商品列表</span>
-								    </el-menu-item>
+							    <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path" v-if="child.navShow">
+							        <span slot="title">{{child.navName}}</span>
+							    </el-menu-item>
 						    </el-submenu>
-
-
-							<el-menu-item :index="$route.path">
+						    <el-menu-item v-if="item.oneLevel&&item.children.length>0" :index="item.children[0].path">
 							    <i class="el-icon-menu"></i>
-							    <span slot="title">图书</span>
+							    <span slot="title">{{item.children[0].navName}}</span>
 							</el-menu-item>
-
-							<el-submenu :index="$route.path">
-							    <template slot="title">
-								      <i class="el-icon-setting"></i>
-								      <span slot="title">系统设置</span>
-							    </template>
-								    <el-menu-item index="/index/editPwd">
-								        <span slot="title">修改密码</span>
-								    </el-menu-item>
-						    </el-submenu>
-
-
+						</template>
 					</el-menu>
 				</div>
 				<!-- 内容切换区 -->
-				<div class="all_articalSpace">
-						<router-view></router-view>
+				<div :class="[spaceWidthDefault,isCollapse?spaceWidthAdj:'']">
+						<transition name="fade" mode="out-in"><router-view></router-view></transition>
 				</div>
-		    </el-col>
+		    <!-- </el-col> -->
 	</el-row>
 </template>
 
@@ -68,7 +53,10 @@
 	export default{
 		data(){
 			return{
- 				isCollapse: false
+ 				isCollapse: false,
+ 				nindex:0,
+ 				spaceWidthDefault:'all_articalSpace',
+ 				spaceWidthAdj:'spaceWidthAdj',
 			}
 		},
 		methods:{
@@ -80,7 +68,7 @@
 		    }
 		},
 		mounted(){
-			console.log(this.$router)
+			
 		}
 	}
 </script>
@@ -104,18 +92,14 @@
 		    	color: #fff;
 		    }
 	    }
-	}
-	.i_article{
-		display: flex;
-	    position: absolute;
-	    top: 60px;
-	    bottom: 0;
-   		overflow: hidden;
-   		div.left_nav{
-   			background:#EEF1F6;
-   			overflow-x: hidden;
-   			overflow-y: auto;
-   			&::-webkit-scrollbar {
+	    .left_nav{
+		    position: absolute;
+		    left: 0;
+		    top: 60px;
+		    bottom: 0;
+		    overflow-y: auto;
+		    background:#EEF1F6;
+		    &::-webkit-scrollbar {
 		        display: none;
 		    }
 		    .clooapse_space{
@@ -133,16 +117,25 @@
 		    	background: #fff;
 		    	color:#20A0FF;
 		    }
-   		}
-   		.all_articalSpace{
-   			flex: 1;
-   			overflow-y: auto;
+	    }
+	    .all_articalSpace{
+			background: #fff;
+		    position: absolute;
+		    left: 201px;
+		    right: 0;
+		    top: 60px;
+		    bottom: 0;
+		    width: auto;
 		    padding: 20px;
-   		}
+		    overflow-y: auto;		   
+		    transition: left .3s ease-in-out;
+	    }
+		.spaceWidthAdj{
+			left: 65px;
+		}
 	}
-
 	.el-menu-vertical-demo:not(.el-menu--collapse) {
 	    width: 200px;
 	    min-height: 400px;
-	  }
+	 }
 </style>

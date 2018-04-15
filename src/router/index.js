@@ -8,39 +8,82 @@ import EditPwd from '../components/EditPwd.vue'
 
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   routes: [
     {
         path: '/',
+        redirect: '/index',
+    },
+    {
+        path: '/index',
         name: 'Login',
         component: Login
     },
     {
-    	path:'/index',
-    	name:'index',
-    	component:Index,
+        path:'/index',
+        navShow:true,
+        component:Index,
+        navName:'商品管理',
         children:[
-            // {
-            //     path: '',
-            //     name: 'addCommodity',
-            //     component: AddCommodity
-            // },
             {
-                path: '/index/addCommodity',
-                name: 'addCommodity',
-                component: AddCommodity
+                path:'/addCommodity',
+                navShow:true,
+                navName:'添加商品',
+                component:AddCommodity
             },
             {
-                path: '/index/commodityList',
-                name: 'commodityList',
-                component: CommodityList
+                path:'/commodityList',
+                navShow:true,
+                navName:'商品列表',
+                component:CommodityList
             },
+        ]
+    },
+    {
+        path:'/index',
+        navShow:true,
+        component:Index,
+        navName:'系统设置',
+        children:[
             {
-                path: '/index/editPwd',
-                name: 'editPwd',
-                component: EditPwd
+                path:'/editPwd',
+                navShow:true,
+                navName:'修改密码',
+                component:EditPwd
             },
-      ]
-    }
+        ]
+    },
+    {
+        path:'/index',
+        navShow:true,
+        oneLevel:true,
+        component:Index,
+        navName:'1级目录',
+        children:[
+            {
+                path:'/oneLevel',
+                navShow:true,
+                navName:'一级目录',
+                component:CommodityList
+            },
+        ]
+    },
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  //NProgress.start();
+  console.log(to)
+  next()
+  // if (to.path == '/login') {
+  //   sessionStorage.removeItem('user');
+  // }
+  // let user = JSON.parse(sessionStorage.getItem('user'));
+  // if (!user && to.path != '/login') {
+  //   next({ path: '/login' })
+  // } else {
+  //   next()
+  // }
+})
+
+export default router

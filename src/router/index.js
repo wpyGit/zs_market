@@ -28,6 +28,7 @@ let router = new Router({
             {
                 path:'/addCommodity',
                 navShow:true,
+                name:'addCommodity',
                 navName:'添加商品',
                 component:AddCommodity
             },

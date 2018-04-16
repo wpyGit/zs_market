@@ -9,8 +9,8 @@
 <script>
 export default {
   name: 'App',
-  mouted(){
-    console.log($router)
+  mounted(){
+    console.log(this.$ajax.interceptors)
   }
 }
 </script>

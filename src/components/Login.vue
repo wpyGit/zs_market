@@ -81,7 +81,7 @@
     }
   }
   div.loginSpace {
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     background: #DFE9FB;
     padding-top:160px;

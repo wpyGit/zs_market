@@ -1,6 +1,7 @@
 <template>
 	<div>
 		商品列表也
+		<button @click="jump">跳到添加页面</button>
 	</div>
 </template>
 
@@ -9,6 +10,14 @@
 		data(){
 			return {
 
+			}
+		},
+		methods:{
+			jump(){
+				this.$router.push({
+					name:'addCommodity',
+					params:{"id":6}
+				})
 			}
 		}
 	}

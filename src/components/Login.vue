@@ -47,7 +47,7 @@
                     //       type: 'success',
                     //       duration: 2000
                     // });
-                    this.$router.replace('/index/commodityList')
+                    this.$router.replace('/commodityList')
             }else{
                 this.$message.error({showClose: true, message: '请求出现异常', duration: 2000});
             }

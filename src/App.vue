@@ -8,7 +8,10 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  mouted(){
+    console.log($router)
+  }
 }
 </script>
 
